@@ -27,10 +27,17 @@ module.exports = async (req, res) => {
             } else {
                 const sqlStr = `INSERT INTO customInfo (userName, mobile, address) VALUES ('${info.name}', '${info.mobile}', '${info.address}');`
                 conn.query(sqlStr, (err, results) => {
-                    return res.json({
-                        code: 200,
-                        msg: results
-                    });
+                    if (err) {
+                        return res.json({
+                            code: 1,
+                            msg: "数据库错误"
+                        });
+                    } else {
+                        return res.json({
+                            code: 200,
+                            msg: results
+                        });
+                    }
                 })
             }
         }
