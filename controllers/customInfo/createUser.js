@@ -6,10 +6,18 @@ const conn = mysql.createConnection({
     password: '!Ms12345678',
     database: 'typroject'
 })
-
+const jwt = require('jsonwebtoken'); //用来生成token
 const bodyParser = require('body-parser')
 module.exports = async (req, res) => {
-    let token = req.headers['x-access-token'];
+    let token = req.headers.token;
+    let secretOrPrivateKey = "jwt"; // 这是加密的key（密钥）
+    jwt.verify(token, secretOrPrivateKey, function (err, decode) {
+        if (err) { //  时间失效的时候/ 伪造的token          
+            //    token校验失败
+        } else {
+            //    token校验成功
+        }
+    })
     console.log("创建用户,", token);
     let info = req.body;
     conn.query(`SELECT userName FROM customInfo WHERE userName='${info.name}'`, (err, data) => {

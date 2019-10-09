@@ -22,9 +22,10 @@ module.exports = async (req, res) => {
             if (data.length > 0) {
                 // token生成
                 let secretOrPrivateKey = "jwt"; // 这是加密的key（密钥）
-                let token = jwt.sign(name, secretOrPrivateKey, {
-                    expiresIn: 60 * 60 * 1 // 1小时过期
-                });
+                // let token = jwt.sign(name, secretOrPrivateKey, {
+                //     expiresIn: 60 * 60 * 1 // 1小时过期
+                // });
+                let token = jwt.sign(name, secretOrPrivateKey);
 
                 if (pass != data[0].pass) {
                     return res.json({
