@@ -9,42 +9,43 @@ const jwt = require('jsonwebtoken'); //用来生成token
 
 const bodyParser = require('body-parser')
 module.exports = async (req, res) => {
-    let name = req.body.name;
-    let pass = req.body.pass;
+    let userName = req.body.userName;
+    let password = req.body.password;
 
-    conn.query(`SELECT userName FROM userInfo WHERE userName='${name}'`, (err, data) => {
+    conn.query(`SELECT * FROM userInfo WHERE userName='${userName}'`, (err, data) => {
         if (err) {
             return res.json({
-                status: 1,
-                userInfo: "数据库错误"
+                status: 2,
+                message: "数据库错误"
             });
         } else {
             if (data.length > 0) {
                 // token生成
                 let secretOrPrivateKey = "jwt"; // 这是加密的key（密钥）
-                // let token = jwt.sign(name, secretOrPrivateKey, {
+                // let token = jwt.sign(userName, secretOrPrivateKey, {
                 //     expiresIn: 60 * 60 * 1 // 1小时过期
                 // });
-                let token = jwt.sign(name, secretOrPrivateKey);
-
-                if (pass != data[0].pass) {
+                let token = jwt.sign(userName, secretOrPrivateKey);
+                console.log("data", data)
+                if (password != data[0].password) {
                     return res.json({
                         status: 2,
-                        mess: '密码错误'
+                        message: '密码错误'
                     });
                 }
                 return res.json({
                     status: 1,
-                    token: token,
-                    user_name: req.body.name
+                    userInfo: {
+                        token: token,
+                        userName: userName
+                    }
                 })
             } else {
                 return res.json({
-                    status: 1,
-                    userInfo: "用户不存在"
+                    status: 2,
+                    message: "用户不存在"
                 });
             }
         }
     })
-
 }
