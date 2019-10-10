@@ -23,12 +23,6 @@ module.exports = async (req, Response) => {
             console.log("--res.body", res.body)
             var access_token = res.body.access_token == null ? res.body.error : res.body.access_token;
             if (access_token != "bad_verification_code") {
-                var infoUrl = "https://api.github.com/user?access_token=" + access_token
-                superagent.get(infoUrl)
-                    .set('Content-Type', 'application/json')
-                    .accept('application/json')
-                    .set('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36')
-                    .end(function (err, res) {
                         if (err) {
                             return console.error(err);
                         }

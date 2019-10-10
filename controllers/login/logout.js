@@ -5,9 +5,6 @@ module.exports = async (req, res) => {
     return res.json({
         status: 1,
         message: "退出登录成功!",
-        userInfo: {
-            token: "",
-            userName: ""
-        }
+        userInfo: {}
     })
 }

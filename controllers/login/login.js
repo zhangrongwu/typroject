@@ -30,7 +30,17 @@ module.exports = async (req, res) => {
                 if (password != data[0].password) {
                     return res.json({
                         status: 2,
-                        message: '密码错误'
+                        message: '密码错误',
+                        data: [{
+                                redName: "测试1",
+                                userName: "测试12"
+                            },
+                            {
+                                redName: "测试13",
+                                userName: "测试14"
+                            }
+                        ],
+                        data1: "[{'22':'33'},{'2ww':'3333'}]"
                     });
                 }
                 return res.json({
