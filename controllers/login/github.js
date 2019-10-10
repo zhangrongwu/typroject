@@ -32,10 +32,52 @@ module.exports = async (req, Response) => {
                         if (err) {
                             return console.error(err);
                         }
+                        console.log("github login ---")
+                        var obj = res.body;
+                        var userName = obj.login;
+                        conn.query(`SELECT * FROM userInfo WHERE userName='${userName}'`, (err, data) => {
+                            if (err) {
+                                return Response.json({
+                                    status: 0,
+                                    message: "数据库错误"
+                                });
+                            } else {
+                                // token生成
+                                let secretOrPrivateKey = "jwt"; // 这是加密的key（密钥）
+                                let token = jwt.sign(userName, secretOrPrivateKey);
+                                if (data.length > 0) {
+                                    if (data[0].type == "github") {
+                                        return Response.json({
+                                            status: 1,
+                                            userInfo: {
+                                                token: token,
+                                                userName: userName
+                                            }
+                                        })
+                                    }
+                                } else {
+                                    const sqlStr = `INSERT INTO userInfo (userName, email, type) VALUES ('${userName}', '${obj.email}', 'github');`
+                                    conn.query(sqlStr, (err, results) => {
+                                        if (err) {
+                                            console.log("err", err);
+                                            return Response.json({
+                                                status: 0,
+                                                message: "数据库错误"
+                                            });
+                                        } else {
+                                            return Response.json({
+                                                status: 1,
+                                                userInfo: {
+                                                    token: token,
+                                                    userName: userName
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            }
+                        })
 
-                        this.autoLogin(Response, res.body);
-
-                       
                     });
             } else {
                 return Response.json({
