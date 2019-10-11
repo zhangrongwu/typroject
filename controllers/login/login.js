@@ -26,30 +26,31 @@ module.exports = async (req, res) => {
                 //     expiresIn: 60 * 60 * 1 // 1小时过期
                 // });
                 let token = jwt.sign(userName, secretOrPrivateKey);
-                console.log("data", data)
-                if (password != data[0].password) {
+                let userInfo = data[0];
+                if (password != userInfo.password) {
                     return res.json({
                         status: 2,
                         message: '密码错误',
-                        data: [{
-                                redName: "测试1",
-                                userName: "测试12"
-                            },
-                            {
-                                redName: "测试13",
-                                userName: "测试14"
-                            }
-                        ],
-                        data1: "[{'22':'33'},{'2ww':'3333'}]"
                     });
                 }
-                return res.json({
+
+                res.cookie('userInfo', {
+                    token: token,
+                    userName: userInfo.userName,
+                    isAdmin: userInfo.isAdmin == 0 ? false : true
+                })
+                res.cookie('isAdmin', userInfo.isAdmin == 0 ? false : true, {
+                    maxAge: 1000 * 60 * 60
+                })
+                res.json({
                     status: 1,
                     userInfo: {
                         token: token,
-                        userName: userName
+                        userName: userName,
+                        isAdmin: true
                     }
                 })
+                return
             } else {
                 return res.json({
                     status: 2,
