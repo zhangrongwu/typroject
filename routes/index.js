@@ -10,6 +10,7 @@ const article = require('../controllers/article/article');
 const article_detail = require('../controllers/article/article_detail');
 const comments = require('../controllers/article/comments');
 
+const article_add = require('../controllers/article/article_add');
 
 
 
@@ -19,6 +20,10 @@ router.post('/cusotm/createUser', body_parser.json(), createUser);
 
 router.get('/index/article', body_parser.json(), article);
 router.get('/index/article_detail', body_parser.json(), article_detail);
+router.post('/index/article_add', body_parser.json(), article_add);
+
+
+
 router.get('/index/comments', body_parser.json(), comments);
 
 

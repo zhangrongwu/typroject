@@ -9,7 +9,6 @@ const conn = mysql.createConnection({
 })
 
 module.exports = async (req, res) => {
-    let info = req.body;
     conn.query(`SELECT * FROM category`, (err, data) => {
         if (err) {
             return res.json({
