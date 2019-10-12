@@ -11,7 +11,7 @@ const conn = mysql.createConnection({
 module.exports = async (req, res) => {
     console.log(req.body)
     let info = req.body;
-    conn.query(`INSERT INTO articleList (title, category, author, content) VALUES ('${info.title}','${info.category}','${info.author}','${info.content}');`, (err, data) => {
+    conn.query(`INSERT INTO comments (articleId, comment, time, userId, userName) VALUES ('${info.articleId}', '${info.comment}', '${info.time}', '${info.userId}','${info.userName}');`, (err, data) => {
         if (err) {
             console.log("错误---", JSON.stringify(err))
 
@@ -20,17 +20,10 @@ module.exports = async (req, res) => {
                 message: "数据库错误!"
             });
         } else {
-            if (data.length > 0) {
-                return res.json({
-                    status: 1,
-                    message: "添加完成！！",
-                });
-            } else {
-                return res.json({
-                    status: 0,
-                    message: "添加失败！！",
-                });
-            }
+            return res.json({
+                status: 1,
+                message: "添加完成！！",
+            });
         }
     })
 }
