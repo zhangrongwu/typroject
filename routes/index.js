@@ -12,6 +12,8 @@ const comments = require('../controllers/article/comments');
 const comments_add = require('../controllers/article/comments_add');
 
 const article_add = require('../controllers/article/article_add');
+const article_category = require('../controllers/article/article_category');
+
 
 
 
@@ -29,6 +31,7 @@ router.get('/index/comments', body_parser.json(), comments);
 router.post('/index/comments_add', body_parser.json(), comments_add);
 
 
+router.get('/index/article_category', body_parser.json(), article_category);
 
 
 
